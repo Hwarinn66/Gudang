@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "method": "Real Laravel HTTP + two session clients + jsdom DOM execution (not visual browser)",
+  "checks": [
+    "Loaded /pending-transactions",
+    "Loaded /scanner",
+    "IN mode selected",
+    "Actual QR PNG decoded by bundled html5-qrcode creates pending",
+    "Pending appears without refresh",
+    "Polling preserves quantity draft",
+    "IN approval commits stock",
+    "Can change mode",
+    "OUT scanner feedback",
+    "OUT pending appears",
+    "OUT approval commits 7",
+    "Real HTTP rejects missing CSRF",
+    "Pending ready for cancel",
+    "Cancel works through UI",
+    "Separate unauthenticated client rejected",
+    "Loaded /products/create",
+    "Dependent location selectors work",
+    "No JavaScript errors"
+  ]
+}

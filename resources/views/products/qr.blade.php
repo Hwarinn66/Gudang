@@ -1,0 +1,7 @@
+@extends('layouts.app')
+@section('title','Label QR')
+@section('content')
+<div class="page-head no-print"><div><h1>Label QR</h1><p class="mt-2 text-slate-500">Cetak dan tempelkan pada posisi barang.</p></div><a class="btn-light" href="{{ route('products.show',$product) }}">Detail Barang</a></div>
+<div class="qr-label panel mx-auto max-w-sm p-7 text-center"><h2 class="text-2xl uppercase">{{ $product->name }}</h2><p class="mono mt-4 text-3xl font-bold">{{ $product->product_code }}</p><p class="mt-3 text-lg">KAPASITAS: <strong>{{ $product->specification??'—' }}</strong></p><p class="mt-1 text-lg">LOKASI: <strong class="mono">{{ $product->position->code }}</strong></p><p class="muted mt-1">{{ $product->position->rack->block->room->name }}</p><img src="{{ route('products.qr-image',$product) }}" width="280" height="280" class="mx-auto mt-4" alt="QR Code {{ $product->product_code }}"><p class="mt-3 text-sm text-slate-600">Periksa kode dan kapasitas sebelum mengambil barang.</p></div>
+<div class="no-print mx-auto mt-6 flex max-w-sm flex-wrap justify-center gap-3"><button data-print class="btn">Print QR</button><a href="{{ route('products.qr-image',[$product,'download'=>1]) }}" class="btn-light">Download QR (SVG)</a><form method="POST" action="{{ route('products.regenerate',$product) }}" data-confirm="Regenerate QR? QR lama langsung tidak berlaku. Anda harus mencetak dan mengganti label.">@csrf<button class="btn-light">Regenerate QR</button></form></div>
+@endsection

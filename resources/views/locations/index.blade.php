@@ -1,0 +1,22 @@
+@extends('layouts.app')
+@section('title','Lokasi Gudang')
+@section('content')
+<div class="page-head"><div><h1>Lokasi Gudang</h1><p class="mt-2 text-slate-500">Ruangan → Blok → Rak → Posisi</p></div></div>
+<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+<form class="panel p-5" action="{{ route('locations.store','rooms') }}" method="POST">@csrf<h2>Tambah Ruangan</h2><label class="mt-4">Nama<input name="name" required maxlength="100" placeholder="Ruangan 1"></label><label class="mt-3">Kode<input name="code" required maxlength="30" placeholder="R1"></label><button class="btn mt-4 w-full">Tambah Ruangan</button></form>
+<form class="panel p-5" action="{{ route('locations.store','blocks') }}" method="POST">@csrf<h2>Tambah Blok</h2><label class="mt-4">Ruangan<select name="room_id" required><option value="">Pilih ruangan</option>@foreach($rooms->where('active',true) as $room)<option value="{{ $room->id }}">{{ $room->name }}</option>
+@endforeach</select></label><label class="mt-3">Kode Blok<input name="code" required maxlength="10" pattern="[A-Z]+" placeholder="A"></label><label class="mt-3">Nama<input name="name" required maxlength="100" placeholder="Blok A"></label><button class="btn mt-4 w-full">Tambah Blok</button></form>
+<form class="panel p-5" action="{{ route('locations.store','racks') }}" method="POST">@csrf<h2>Tambah Rak</h2><label class="mt-4">Blok<select name="block_id" required><option value="">Pilih blok</option>@foreach($rooms->where('active',true) as $room)@foreach($room->blocks->where('active',true) as $b)<option value="{{ $b->id }}">{{ $room->name }} / {{ $b->code }}</option>
+@endforeach
+@endforeach</select></label><label class="mt-3">Nomor Rak<input name="rack_number" type="number" min="1" max="999" step="1" required placeholder="1"></label><label class="mt-3">Nama (opsional)<input name="name" maxlength="100" placeholder="Rak 01"></label><button class="btn mt-4 w-full">Tambah Rak</button></form>
+<form class="panel p-5" action="{{ route('locations.store','positions') }}" method="POST">@csrf<h2>Tambah Posisi</h2><label class="mt-4">Rak<select name="rack_id" required><option value="">Pilih rak</option>@foreach($rooms->where('active',true) as $room)@foreach($room->blocks->where('active',true) as $b)@foreach($b->racks->where('active',true) as $rack)<option value="{{ $rack->id }}">{{ $room->name }} / {{ $rack->code }}</option>
+@endforeach
+@endforeach
+@endforeach</select></label><label class="mt-3">Nomor Posisi<input name="position_number" type="number" min="1" max="999" step="1" required placeholder="1"></label><p class="muted mt-4">Nomor posisi dimulai kembali pada setiap rak.</p><button class="btn mt-4 w-full">Tambah Posisi</button></form>
+</div>
+<div class="mt-8 space-y-5">@forelse($rooms as $room)<section class="panel overflow-hidden"><div class="flex items-center justify-between bg-slate-100 px-5 py-4"><h2>{{ $room->name }} <span class="muted">{{ $room->code }}</span></h2>@include('locations.toggle',['kind'=>'rooms','item'=>$room])</div><div class="space-y-5 p-5">@forelse($room->blocks->sortBy('code') as $b)<div><div class="mb-3 flex items-center justify-between"><h3 class="font-semibold">{{ $b->name }} <span class="mono text-teal-700">{{ $b->code }}</span></h3>@include('locations.toggle',['kind'=>'blocks','item'=>$b])</div><div class="grid gap-4 xl:grid-cols-2">@forelse($b->racks->sortBy('rack_number') as $rack)<div class="rounded-lg border border-slate-200 p-4"><div class="flex items-center justify-between"><h4 class="mono font-semibold">Rak {{ $rack->code }}</h4>@include('locations.toggle',['kind'=>'racks','item'=>$rack])</div><div class="mt-3 divide-y divide-slate-100">@forelse($rack->positions->sortBy('position_number') as $position)@php($occupant=$position->products->firstWhere('active',true))<div class="flex flex-wrap items-center justify-between gap-3 py-3"><div><span class="mono font-medium">{{ $position->code }}</span><p class="mt-1 text-sm {{ $occupant?'text-slate-600':'text-teal-700' }}">{{ $occupant ? $occupant->product_code.' — '.$occupant->name.' '.$occupant->specification : 'Posisi kosong' }}</p></div>@include('locations.toggle',['kind'=>'positions','item'=>$position])</div>@empty<p class="muted py-3">Belum ada posisi.</p>
+@endforelse</div></div>@empty<p class="muted">Belum ada rak.</p>
+@endforelse</div></div>@empty<p class="muted">Belum ada blok.</p>
+@endforelse</div></section>@empty<div class="panel empty">Tambahkan ruangan pertama Anda.</div>
+@endforelse</div>
+@endsection

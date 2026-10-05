@@ -1,0 +1,6 @@
+@extends('layouts.app')
+@section('title','Kategori')
+@section('content')
+<div class="page-head"><div><h1>Kategori</h1><p class="mt-2 text-slate-500">Kelompokkan barang untuk pencarian dan pelaporan.</p></div></div><div class="grid gap-6 lg:grid-cols-3"><form method="POST" action="{{ route('categories.store') }}" class="panel h-fit p-6">@csrf<h2>Tambah Kategori</h2><label class="mt-5">Nama Kategori<input name="name" value="{{ old('name') }}" required maxlength="100" placeholder="Peralatan"></label><button class="btn mt-5">Tambah Kategori</button></form><section class="panel divide-y divide-slate-100 lg:col-span-2">@forelse($categories as $c)<form method="POST" action="{{ route('categories.update',$c) }}" class="flex flex-wrap items-end gap-4 p-5">@csrf @method('PUT')<label class="min-w-48 flex-1">Nama · {{ $c->products_count }} barang<input name="name" value="{{ $c->name }}" required maxlength="100"></label><label>Status<select name="active"><option value="1" @selected($c->active)>Aktif</option><option value="0" @selected(!$c->active)>Nonaktif</option></select></label><button class="btn-light">Simpan</button></form>@empty<div class="empty">Belum ada kategori.</div>
+@endforelse</section></div>
+@endsection

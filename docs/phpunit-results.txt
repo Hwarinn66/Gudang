@@ -1,0 +1,44 @@
+PHPUnit 11.5.56 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.2.32
+Configuration: <PROJECT>/phpunit.xml
+
+..............................                                    30 / 30 (100%)
+
+Time: 00:02.745, Memory: 50.50 MB
+
+Concurrency (Tests\Feature\Concurrency)
+ ✔ Two simultaneous scans create one pending
+ ✔ Two simultaneous approvals change stock once
+ ✔ Approve versus cancel has exactly one winner
+
+Warehouse (Tests\Feature\Warehouse)
+ ✔ New product starts zero has unique qr and printable label
+ ✔ Code and active position duplicates are rejected
+ ✔ In out preview and approval flow
+ ✔ Double scan both modes blocked until cancel or approve
+ ✔ Out over stock rejected and empty stock never pending
+ ✔ Invalid quantity never changes stock with data set #0
+ ✔ Invalid quantity never changes stock with data set #1
+ ✔ Invalid quantity never changes stock with data set #2
+ ✔ Invalid quantity never changes stock with data set #3
+ ✔ Invalid quantity never changes stock with data set #4
+ ✔ Invalid quantity never changes stock with data set #5
+ ✔ Invalid quantity never changes stock with data set #6
+ ✔ Low stock boundary and manual moving unchanged
+ ✔ Approval rolls back if transaction update fails
+ ✔ Approval rolls back if stock update fails
+ ✔ Adjustment records signed delta and rejects stale duplicate pending
+ ✔ Default fast slow sort and combined filters
+ ✔ Total out only approved and stock sort
+ ✔ Numeric location sort and history snapshot survive move
+ ✔ Inactive product releases position but scan rejected
+ ✔ Stock and pending prevent unsafe master edits
+ ✔ Qr regeneration invalidates old token
+ ✔ Database constraints protect direct writes
+ ✔ Login and private scan endpoints
+ ✔ Unknown qr pending endpoint views and csv
+ ✔ History allows one sided dates and export matches filters
+ ✔ Demo seeder is idempotent and stocks have history
+
+OK (30 tests, 160 assertions)

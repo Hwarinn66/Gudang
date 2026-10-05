@@ -1,0 +1,11 @@
+{
+  "name": "warehouse-stock-assets",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./resources/css/app.css -o ./public/assets/app.css --minify && node scripts/copy-assets.cjs"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17",
+    "html5-qrcode": "2.3.8"
+  }
+}
